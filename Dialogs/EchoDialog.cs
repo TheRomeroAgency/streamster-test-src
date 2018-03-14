@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Net.Http;
+using SimpleEchoBot.Data;
 
 
 namespace Microsoft.Bot.Sample.SimpleEchoBot
@@ -11,7 +12,8 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
     [Serializable]
     public class EchoDialog : IDialog<object>
     {
-        protected int count = 1;
+        private StreambotEntities _db = new StreambotEntities();
+        protected int Count = 1;
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -33,7 +35,7 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
             }
             else
             {
-                await context.PostAsync($"{this.count++}: You said {message.Text}");
+                await context.PostAsync($"{this.Count++}: You said {message.Text}");
                 context.Wait(MessageReceivedAsync);
             }
         }
@@ -43,7 +45,7 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
             var confirm = await argument;
             if (confirm)
             {
-                this.count = 1;
+                this.Count = 1;
                 await context.PostAsync("Reset count.");
             }
             else

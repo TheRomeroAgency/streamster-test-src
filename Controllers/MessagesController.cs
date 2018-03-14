@@ -5,12 +5,14 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Web.Http.Description;
 using System.Net.Http;
+using SimpleEchoBot.Data;
 
 namespace Microsoft.Bot.Sample.SimpleEchoBot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private StreambotEntities _db = new StreambotEntities();
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and send replies

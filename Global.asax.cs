@@ -23,11 +23,15 @@ namespace SimpleEchoBot
                     builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
                     // Using Azure Table Storage
-                    var store = new TableBotDataStore(ConfigurationManager.AppSettings["AzureWebJobsStorage"]); // requires Microsoft.BotBuilder.Azure Nuget package 
+                    //var store = new TableBotDataStore(ConfigurationManager.AppSettings["AzureWebJobsStorage"]); 
+                    // requires Microsoft.BotBuilder.Azure Nuget package 
 
-                    // To use CosmosDb or InMemory storage instead of the default table storage, uncomment the corresponding line below
-                    // var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
-                    // var store = new InMemoryDataStore(); // volatile in-memory store
+                    // To use CosmosDb or InMemory storage instead of the default table storage, 
+                    // uncomment the corresponding line below
+
+                    //var store = new DocumentDbBotDataStore("https://codtropy-dev.documents.azure.com:443/", "KZjSz0qOyRfTp1JStTid8WInyuEtQgE65nDM9Tu5WgjUFuFP29p2vxyFdS870UODVAbTR6jxGm1fXc1PL7aFFQ=="); 
+                    // requires Microsoft.BotBuilder.Azure Nuget package 
+                    var store = new InMemoryDataStore(); // volatile in-memory store
 
                     builder.Register(c => store)
                         .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
