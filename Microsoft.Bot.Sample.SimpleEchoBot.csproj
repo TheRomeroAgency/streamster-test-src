@@ -176,6 +176,16 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\StreambotEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StreambotEntities.edmx</DependentUpon>
+      <LastGenOutput>StreambotEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\StreambotEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StreambotEntities.edmx</DependentUpon>
+      <LastGenOutput>StreambotEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -183,13 +193,30 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Data\Bot.cs" />
-    <Compile Include="Data\BotType.cs" />
-    <Compile Include="Data\database_firewall_rules.cs" />
-    <Compile Include="Data\EnvType.cs" />
-    <Compile Include="Data\StreambotEntities.cs" />
-    <Compile Include="Data\SubscriptionType.cs" />
-    <Compile Include="Data\Subscripton.cs" />
+    <Compile Include="Data\Bot.cs">
+      <DependentUpon>StreambotEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BotType.cs">
+      <DependentUpon>StreambotEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\EnvType.cs">
+      <DependentUpon>StreambotEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StreambotEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StreambotEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StreambotEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StreambotEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StreambotEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StreambotEntities.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EchoDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -198,6 +225,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <EntityDeploy Include="Data\StreambotEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StreambotEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\StreambotEntities.edmx.diagram">
+      <DependentUpon>StreambotEntities.edmx</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -208,6 +242,9 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

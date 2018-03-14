@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="streambot_devModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BotTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateUpdated" Type="datetime" Nullable="false" />
+          <Property Name="CodeLocation" Type="varchar" MaxLength="100" />
+          <Property Name="EnvironmentId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="OwnerUserId" Type="int" />
+          <Property Name="Premier" Type="bit" />
+          <Property Name="Subscribers" Type="int" />
+          <Property Name="BotDetailId" Type="int" />
+        </EntityType>
+        <EntityType Name="BotType">
+          <Key>
+            <PropertyRef Name="BotTypeId" />
+          </Key>
+          <Property Name="BotTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnvType">
+          <Key>
+            <PropertyRef Name="EnvTypeId" />
+          </Key>
+          <Property Name="EnvTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BotType">
+          <End Role="BotType" Type="Self.BotType" Multiplicity="1" />
+          <End Role="Bot" Type="Self.Bot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BotType">
+              <PropertyRef Name="BotTypeId" />
+            </Principal>
+            <Dependent Role="Bot">
+              <PropertyRef Name="BotTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="streambot_devModelStoreContainer">
+          <EntitySet Name="Bot" EntityType="Self.Bot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BotType" EntityType="Self.BotType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EnvType" EntityType="Self.EnvType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BotType" Association="Self.FK_BotType">
+            <End Role="BotType" EntitySet="BotType" />
+            <End Role="Bot" EntitySet="Bot" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="streambot_devModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BotTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodeLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EnvironmentId" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="OwnerUserId" Type="Int32" />
+          <Property Name="Premier" Type="Boolean" />
+          <Property Name="Subscribers" Type="Int32" />
+          <Property Name="BotDetailId" Type="Int32" />
+          <NavigationProperty Name="BotType" Relationship="Self.FK_BotType" FromRole="Bot" ToRole="BotType" />
+        </EntityType>
+        <EntityType Name="BotType">
+          <Key>
+            <PropertyRef Name="BotTypeId" />
+          </Key>
+          <Property Name="BotTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bots" Relationship="Self.FK_BotType" FromRole="BotType" ToRole="Bot" />
+        </EntityType>
+        <EntityType Name="EnvType">
+          <Key>
+            <PropertyRef Name="EnvTypeId" />
+          </Key>
+          <Property Name="EnvTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BotType">
+          <End Role="BotType" Type="Self.BotType" Multiplicity="1" />
+          <End Role="Bot" Type="Self.Bot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BotType">
+              <PropertyRef Name="BotTypeId" />
+            </Principal>
+            <Dependent Role="Bot">
+              <PropertyRef Name="BotTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bots" EntityType="Self.Bot" />
+          <EntitySet Name="BotTypes" EntityType="Self.BotType" />
+          <EntitySet Name="EnvTypes" EntityType="Self.EnvType" />
+          <AssociationSet Name="FK_BotType" Association="Self.FK_BotType">
+            <End Role="BotType" EntitySet="BotTypes" />
+            <End Role="Bot" EntitySet="Bots" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="streambot_devModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Bots">
+            <EntityTypeMapping TypeName="streambot_devModel.Bot">
+              <MappingFragment StoreEntitySet="Bot">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BotTypeId" ColumnName="BotTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+                <ScalarProperty Name="CodeLocation" ColumnName="CodeLocation" />
+                <ScalarProperty Name="EnvironmentId" ColumnName="EnvironmentId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="OwnerUserId" ColumnName="OwnerUserId" />
+                <ScalarProperty Name="Premier" ColumnName="Premier" />
+                <ScalarProperty Name="Subscribers" ColumnName="Subscribers" />
+                <ScalarProperty Name="BotDetailId" ColumnName="BotDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BotTypes">
+            <EntityTypeMapping TypeName="streambot_devModel.BotType">
+              <MappingFragment StoreEntitySet="BotType">
+                <ScalarProperty Name="BotTypeId" ColumnName="BotTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EnvTypes">
+            <EntityTypeMapping TypeName="streambot_devModel.EnvType">
+              <MappingFragment StoreEntitySet="EnvType">
+                <ScalarProperty Name="EnvTypeId" ColumnName="EnvTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
